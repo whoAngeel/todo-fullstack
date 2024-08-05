@@ -12,10 +12,10 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
 	try {
 		const user = req.user;
-        console.log(user);
 		const payload = { sub: user.id, fullname: user.fullname };
 		const token = signToken(payload);
-        res.status(200).json({ token, user });
+		res.cookie("token", token);
+		res.status(200).json(user);
 	} catch (error) {
 		next(error);
 	}
