@@ -14,8 +14,9 @@ export const LocalStrategy = new Strategy(
 			if (!user) done(unauthorized(), false);
 			const isMatch = await compare(password, user.password);
 			if (!isMatch) done(unauthorized(), false);
-			delete user.dataValues.password;
-			done(null, user);
+			const userObj = user.toObject();
+			delete userObj.password;
+			done(null, userObj);
 		} catch (error) {
 			done(error, false);
 		}
