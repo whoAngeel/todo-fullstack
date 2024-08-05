@@ -17,6 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(cors());
 
+import './utils/auth/index.js'
+
 app.get("/", (req, res) => {
 	res.send("Hello World");
 });
