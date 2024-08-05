@@ -1,4 +1,4 @@
-import { conflict } from "@hapi/boom";
+import { conflict, notFound } from "@hapi/boom";
 import User from "../models/user.model.js";
 import { hash } from "bcrypt";
 
@@ -14,4 +14,12 @@ export const createUser = async (userData) => {
 
 export const findByEmail = async (email)=>{
     return await User.findOne({ email })
+}
+
+export const findById = async (id)=>{
+    const user = await User.findById(id)
+    if(!user) throw notFound('Usuario no encontrado')
+        const userObj = user.toObject()
+    delete userObj.password
+    return userObj
 }
