@@ -13,13 +13,12 @@ export const validatorHandler = (schema, property) => {
 	};
 };
 
-export const validateSchema = (schema) => (req, res, next) => {
+export const validateSchema = (schema, location='body') => (req, res, next) => {
 	try {
-	  schema.parse(req.body);
+	  schema.parse(req[location]);
 	  next();
 	} catch (error) {
 	  if (error instanceof ZodError) {
-		// Formatear los errores de Zod en un formato más amigable
 		const formattedErrors = error.issues.reduce((acc, issue) => {
 		  const key = issue.path.join('.');
 		  if (!acc[key]) {
@@ -32,7 +31,6 @@ export const validateSchema = (schema) => (req, res, next) => {
 		return res.status(400).json({ errors: formattedErrors });
 	  }
   
-	  // En caso de otros errores
 	  next(error);
 	}
   };
