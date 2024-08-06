@@ -1,4 +1,4 @@
-import { create, getAll } from "../services/task.service.js";
+import { create, edit, getAll, getById } from "../services/task.service.js";
 
 export const createTask = async (req, res, next) => {
 	try {
@@ -12,6 +12,10 @@ export const createTask = async (req, res, next) => {
 };
 export const getTask = async (req, res, next) => {
 	try {
+        const userId = req.user.sub;
+        const { id } = req.params;
+        const task = await getById(userId, id);
+        res.status(200).json(task);
 	} catch (error) {
 		next(error);
 	}
@@ -25,8 +29,12 @@ export const getTasks = async (req, res, next) => {
 		next(error);
 	}
 };
-export const updateTask = async (req, res, next) => {
+export const editTask = async (req, res, next) => {
 	try {
+        const { id } = req.params;
+        const userId = req.user.sub
+        const task = await edit(id, req.body, userId)
+        res.status(200).json(task)
 	} catch (error) {
 		next(error);
 	}

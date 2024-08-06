@@ -1,4 +1,4 @@
-import { notFound } from "@hapi/boom";
+import { notFound, unauthorized } from "@hapi/boom";
 import taskModel from "../models/task.model.js";
 
 export const create = async (taskData) => {
@@ -7,11 +7,12 @@ export const create = async (taskData) => {
 };
 
 export const getAll = async (userId) => {
-	return await taskModel.find({user: userId});
+	return await taskModel.find({ user: userId });
 };
 
-export const getById = async (id) => {
+export const getById = async (userId, id) => {
 	const task = await taskModel.findById(id);
+	if (task.user != userId) throw unauthorized("No autorizado");
 	if (!task) throw notFound("Tarea no encontrada");
 	return task;
 };
@@ -21,9 +22,13 @@ export const removeTask = async (id) => {
 	return task;
 };
 
-export const edit = async (id, taskData) => {
-	const updatedTask = await taskModel.findByIdAndUpdate(id, taskData, {
-		new: true,
-	});
-	return updatedTask;
+export const edit = async (id, taskData, userId) => {
+	const task = await taskModel.findOneAndUpdate(
+		{ _id: id, user: userId },
+		taskData,
+		{
+			new: true,
+		}
+	);
+    return task
 };
