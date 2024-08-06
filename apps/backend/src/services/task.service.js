@@ -19,6 +19,7 @@ export const getById = async (userId, id) => {
 
 export const removeTask = async (id) => {
 	const task = await taskModel.findByIdAndDelete(id);
+    if(!task) throw notFound("Tarea no encontrada");
 	return task;
 };
 

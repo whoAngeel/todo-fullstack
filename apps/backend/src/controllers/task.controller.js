@@ -1,4 +1,4 @@
-import { create, edit, getAll, getById } from "../services/task.service.js";
+import { create, edit, getAll, getById, removeTask } from "../services/task.service.js";
 
 export const createTask = async (req, res, next) => {
 	try {
@@ -41,6 +41,10 @@ export const editTask = async (req, res, next) => {
 };
 export const deleteTask = async (req, res, next) => {
 	try {
+        const { id } = req.params;
+        const userId = req.user.sub
+        const rta = await removeTask(id, userId)
+        res.status(200).json(rta)
 	} catch (error) {
 		next(error);
 	}
