@@ -6,8 +6,8 @@ export const create = async (taskData) => {
 	return task;
 };
 
-export const getAll = async () => {
-	return await taskModel.find({});
+export const getAll = async (userId) => {
+	return await taskModel.find({user: userId});
 };
 
 export const getById = async (id) => {
