@@ -1,6 +1,8 @@
-
+import { Outlet } from "react-router-dom";
 function App() {
-	return <h2 className="text-3xl font-bold">hola</h2>;
+	return (
+    <Outlet />
+	);
 }
 
 export default App;
