@@ -8,8 +8,8 @@ const router = Router();
 
 router.post(
 	"/login",
-	validateSchema(loginSchema),
 	passport.authenticate("local", { session: false }),
+	validateSchema(loginSchema),
 	login
 );
 
