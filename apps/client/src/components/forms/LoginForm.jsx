@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Button, Input, Form, Flex } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 // import { useForm } from "react-hook-form";
 
 export default function LoginForm() {
@@ -15,7 +16,12 @@ export default function LoginForm() {
 		console.log("Received values of form: ", values);
 	};
 	return (
-		<Form form={form} layout="vertical" className="w-4/12 max-w-sm" onFinish={onFinish}>
+		<Form
+			form={form}
+			layout="vertical"
+			className="w-4/12 max-w-sm"
+			onFinish={onFinish}
+		>
 			<Form.Item
 				label="Email:"
 				tooltip="El email es un campo requerido"
@@ -57,9 +63,9 @@ export default function LoginForm() {
 			</Form.Item>
 			<div className="flex flex-col gap-3">
 				<div className="flex justify-end ">
-					<a href="" className="text-right">
+					<Link to="/forgot-password" className="link text-right">
 						¿Olvidaste tu contraseña?
-					</a>
+					</Link>
 				</div>
 				<Form.Item shouldUpdate>
 					{() => (
@@ -79,6 +85,12 @@ export default function LoginForm() {
 						</Button>
 					)}
 				</Form.Item>
+				<div>
+                ¿No tienes cuenta? 
+					<Link to="/register" className="link no-underline">
+						  Registrate aquí
+					</Link>
+				</div>
 			</div>
 		</Form>
 	);
