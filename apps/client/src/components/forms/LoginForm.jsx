@@ -5,34 +5,35 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
+import { useAuth } from "../../context/AuthContext";
+import { signin } from "../../api/auth";
 
 export default function LoginForm() {
 	const [form] = Form.useForm();
 	const [clientReady, setClientReady] = React.useState(false);
-	const [loading, setLoading] = React.useState(false);
-const navigate = useNavigate()
+	const { login, loading } = useAuth();
+	const [isLoading, setIsLoading] = React.useState(false);
+	const navigate = useNavigate();
 	useEffect(() => {
-        Cookies.remove('token')
+		Cookies.remove("token");
 		setClientReady(true);
 	}, []);
-	const onFinish = (values) => {
-		setLoading(true);
-		axios
-			.post("/api/auth/login", values)
+	const onFinish = async (values) => {
+		setIsLoading(true);
+		signin(values)
 			.then((res) => {
-				console.log(res.data);
-                // if(res.statusText === "OK") toast.success("logged in!!!") 
-                Cookies.set("token", res.data.token)
-                navigate('/')
+				Cookies.set("token", res.data.token);
+				navigate("/");
 			})
 			.catch((err) => {
-                // console.log(err.response.data.message);
-                toast.error(err.response.data.statusCode === 401 ? "No autorizado" : "Error de inicio de sesión")
+				toast.error(
+					err.response.data.statusCode === 401
+						? "No autorizado"
+						: "Error de inicio de sesión"
+				);
 			})
-			.finally(() => {
-				setLoading(false);
-			});
+			.finally(() => setIsLoading(false));
 	};
 	return (
 		<Form
@@ -91,7 +92,7 @@ const navigate = useNavigate()
 						<Button
 							type="primary"
 							block
-                            loading={loading}
+							loading={isLoading}
 							htmlType="submit"
 							disabled={
 								!clientReady ||
@@ -101,9 +102,7 @@ const navigate = useNavigate()
 									.filter(({ errors }) => errors.length).length
 							}
 						>
-                            {loading ? (
-                                <span>Cargando...</span>
-                            ) : "Iniciar Sesión"}
+							{isLoading ? <span>Cargando...</span> : "Iniciar Sesión"}
 						</Button>
 					)}
 				</Form.Item>

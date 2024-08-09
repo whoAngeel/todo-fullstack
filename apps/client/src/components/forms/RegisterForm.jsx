@@ -3,19 +3,32 @@ import { Button, Form, Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { signup } from "../../api/auth";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 function RegisterForm() {
 	const [form] = Form.useForm();
 	const navigate = useNavigate();
 	const [clientReady, setClientReady] = React.useState(false);
-	const { register, user, loading } = useAuth();
-	console.log(user);
+	// const { register, user, loading } = useAuth();
+	const [loading, setLoading] = React.useState(false);
 	React.useEffect(() => {
 		setClientReady(true);
 	}, []);
 
 	const onFinish = (values) => {
-		register(values);
-		navigate("/");
+		setLoading(true);
+		signup(values)
+			.then((res) => {
+				// console.log(res.data);
+				Cookies.set("token", res.data.token);
+				navigate("/");
+			})
+			.catch((err) => {
+				console.log(err);
+				toast.error(err.response.data.message);
+			})
+			.finally(() => setLoading(false));
 	};
 	return (
 		<Form

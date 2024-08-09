@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { signin, signup } from "../api/auth";
 
 export const AuthContext = createContext();
 
@@ -13,27 +14,18 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
 	const [loading, setLoading] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [user, setUser] = useState(null);
 
-	const register = (userData) => {
+	const login = (credentials) => {
 		setLoading(true);
-		axios
-			.post("/api/auth/register", userData)
+		return axios
+			.post("/api/auth/login", credentials)
 			.then((res) => {
-				// console.log(res.data);
-				console.log(res.data);
-				Cookies.set("token", res.data.token);
-				setUser(res.data.user);
-			})
-			.catch((err) => {
-				toast.error(err.response.data.message);
+				return res.data;
 			})
 			.finally(() => setLoading(false));
 	};
 
-	return (
-		<AuthContext.Provider value={{ user, register, loading }}>
-			{children}
-		</AuthContext.Provider>
-	);
+	return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
 };
