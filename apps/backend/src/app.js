@@ -1,6 +1,7 @@
 import morgan from "morgan";
 import express from "express";
 import cors from "cors";
+import cookieParser from 'cookie-parser'
 import { connectDB } from "./db.js";
 import { routerAPI } from "./routes/index.js";
 import {
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(cors());
+app.use(cookieParser())
 
 import './utils/auth/index.js'
 
