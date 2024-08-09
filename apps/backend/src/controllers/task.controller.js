@@ -43,8 +43,8 @@ export const deleteTask = async (req, res, next) => {
 	try {
         const { id } = req.params;
         const userId = req.user.sub
-        const rta = await removeTask(id, userId)
-        res.status(200).json(rta)
+        const rta = await removeTask(id)
+        res.status(200).send('Tarea eliminada con exito')
 	} catch (error) {
 		next(error);
 	}
