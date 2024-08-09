@@ -4,14 +4,16 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-// import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 export default function LoginForm() {
 	const [form] = Form.useForm();
 	const [clientReady, setClientReady] = React.useState(false);
 	const [loading, setLoading] = React.useState(false);
-
+const navigate = useNavigate()
 	useEffect(() => {
+        Cookies.remove('token')
 		setClientReady(true);
 	}, []);
 	const onFinish = (values) => {
@@ -20,11 +22,13 @@ export default function LoginForm() {
 			.post("/api/auth/login", values)
 			.then((res) => {
 				console.log(res.data);
-                if(res.statusText === "OK") toast.success("logged in!!!") 
+                // if(res.statusText === "OK") toast.success("logged in!!!") 
+                Cookies.set("token", res.data.token)
+                navigate('/')
 			})
 			.catch((err) => {
-                console.log(err);
-                // toast.error(err.message)
+                // console.log(err.response.data.message);
+                toast.error(err.response.data.statusCode === 401 ? "No autorizado" : "Error de inicio de sesión")
 			})
 			.finally(() => {
 				setLoading(false);
@@ -87,6 +91,7 @@ export default function LoginForm() {
 						<Button
 							type="primary"
 							block
+                            loading={loading}
 							htmlType="submit"
 							disabled={
 								!clientReady ||
@@ -96,7 +101,9 @@ export default function LoginForm() {
 									.filter(({ errors }) => errors.length).length
 							}
 						>
-							Iniciar Sesión
+                            {loading ? (
+                                <span>Cargando...</span>
+                            ) : "Iniciar Sesión"}
 						</Button>
 					)}
 				</Form.Item>
