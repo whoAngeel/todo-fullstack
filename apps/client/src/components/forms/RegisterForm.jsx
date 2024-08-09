@@ -1,9 +1,12 @@
 import React from "react";
 import { Button, Form, Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 function RegisterForm() {
+	const navigate = useNavigate();
 	const [form] = Form.useForm();
 	const [clientReady, setClientReady] = React.useState(false);
 	const [loading, setLoading] = React.useState(false);
@@ -11,7 +14,20 @@ function RegisterForm() {
 		setClientReady(true);
 	}, []);
 
-	const onFinish = (values) => console.log(values);
+	const onFinish = (values) => {
+		setLoading(true);
+		axios
+			.post("/api/auth/register", values)
+			.then((res) => {
+				// console.log(res.data);
+				Cookies.set("token", res.data.token);
+				navigate("/");
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+			})
+			.finally(() => setLoading(false));
+	};
 	return (
 		<Form
 			onFinish={onFinish}
