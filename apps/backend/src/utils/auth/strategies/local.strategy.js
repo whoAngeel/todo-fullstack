@@ -9,7 +9,7 @@ export const LocalStrategy = new Strategy(
 	},
 	async (email, password, done) => {
 		try {
-			if (email === "" && password === "") done(badData(), false);
+			if (email === "" || password === "") done(badData(), false);
 			const user = await findByEmail(email);
 			if (!user) done(unauthorized(), false);
 			const isMatch = await compare(password, user.password);
@@ -18,6 +18,7 @@ export const LocalStrategy = new Strategy(
 			delete userObj.password;
 			done(null, userObj);
 		} catch (error) {
+			// console.log(error);
 			done(error, false);
 		}
 	}

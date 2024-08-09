@@ -7,19 +7,21 @@ export const createUser = async (userData) => {
 	if (user) throw conflict("El usuario con el email ya existe");
 	const newUser = await User.create({
 		...userData,
-		password: await hash(userData.password, 10)
+		password: await hash(userData.password, 10),
 	});
 	return newUser;
 };
 
-export const findByEmail = async (email)=>{
-    return await User.findOne({ email })
-}
+export const findByEmail = async (email) => {
+	const usuario = await User.findOne({ email });
+	if (!usuario) throw notFound("Usuario no encontrado");
+	return usuario;
+};
 
-export const findById = async (id)=>{
-    const user = await User.findById(id)
-    if(!user) throw notFound('Usuario no encontrado')
-        const userObj = user.toObject()
-    delete userObj.password
-    return userObj
-}
+export const findById = async (id) => {
+	const user = await User.findById(id);
+	if (!user) throw notFound("Usuario no encontrado");
+	const userObj = user.toObject();
+	delete userObj.password;
+	return userObj;
+};

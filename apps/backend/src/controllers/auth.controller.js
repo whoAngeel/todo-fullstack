@@ -14,8 +14,7 @@ export const login = async (req, res, next) => {
 		const user = req.user;
 		const payload = { sub: user._id, fullname: user.fullname };
 		const token = signToken(payload);
-		res.cookie("token", token);
-		res.status(200).send('logged in!!')
+		res.status(200).json({token})
 	} catch (error) {
 		next(error);
 	}

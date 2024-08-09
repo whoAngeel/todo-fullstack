@@ -2,18 +2,33 @@ import React, { useEffect } from "react";
 import { Button, Input, Form, Flex } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 // import { useForm } from "react-hook-form";
 
 export default function LoginForm() {
 	const [form] = Form.useForm();
 	const [clientReady, setClientReady] = React.useState(false);
+	const [loading, setLoading] = React.useState(false);
 
-	// const { register, handleSubmit } = useForm();
 	useEffect(() => {
 		setClientReady(true);
 	}, []);
 	const onFinish = (values) => {
-		console.log("Received values of form: ", values);
+		setLoading(true);
+		axios
+			.post("/api/auth/login", values)
+			.then((res) => {
+				console.log(res.data);
+                if(res.statusText === "OK") toast.success("logged in!!!") 
+			})
+			.catch((err) => {
+                console.log(err);
+                // toast.error(err.message)
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	};
 	return (
 		<Form
@@ -86,9 +101,9 @@ export default function LoginForm() {
 					)}
 				</Form.Item>
 				<div>
-                ¿No tienes cuenta? 
+					¿No tienes cuenta?
 					<Link to="/register" className="link no-underline">
-						  Registrate aquí
+						Registrate aquí
 					</Link>
 				</div>
 			</div>
