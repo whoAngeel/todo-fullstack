@@ -28,6 +28,7 @@ export default function LoginForm() {
 				navigate("/");
 			})
 			.catch((err) => {
+				console.log(err.message);
 				toast.error(
 					err.response.data.statusCode === 401
 						? "No autorizado"

@@ -37,8 +37,8 @@ function Navbar() {
 						className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
 					>
 						<div className="my-2 mx-auto">
-							<div class="font-bold">{user.fullname}</div>
-							<div class="text-sm opacity-50">{user.email}</div>
+							<div className="font-bold">{user?.fullname}</div>
+							<div className="text-sm opacity-50">{user?.email}</div>
 						</div>
 						<li>
 							<a className="justify-between">Perfíl</a>
