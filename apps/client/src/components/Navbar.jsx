@@ -6,10 +6,16 @@ function Navbar() {
 	const { user, removeUser } = useAuth();
 	const navigate = useNavigate();
 	console.log(user);
-	const avatarPlaceholderText = (text) => {
-		let palabras = text.split(" ");
-		let letras = palabras[0][0] + palabras[1][0];
-		return letras;
+	const getAvatarPlaceholder = (fullname) => {
+		const names = fullname.trim().split(/\s+/);
+		const initials =
+			names.length === 1
+				? names[0][0].toUpperCase()
+				: names
+						.filter((_, index) => index === 0 || names.length - 1)
+						.map((name) => name[0].toUpperCase())
+						.join("");
+		return initials;
 	};
 	const logout = () => {
 		removeUser();
@@ -29,7 +35,7 @@ function Navbar() {
 							role="button"
 							className="bg-neutral text-neutral-content w-12 rounded-full"
 						>
-							<span>fs</span>
+							<span>{getAvatarPlaceholder(user?.fullname)}</span>
 						</div>
 					</div>
 					<ul
