@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
@@ -15,7 +15,15 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
 	const [loading, setLoading] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState(() => {
+		const savedUser = sessionStorage.getItem("user");
+		return savedUser ? JSON.parse(savedUser) : null;
+	});
+
+	useEffect(() => {
+		if (user) sessionStorage.setItem("user", JSON.stringify(user));
+		else sessionStorage.removeItem("user");
+	}, [user]);
 
 	const getProfile = () => {
 		axios
@@ -30,9 +38,12 @@ export const AuthProvider = ({ children }) => {
 				toast.error("Error obteniendo la informacion del usuario");
 			});
 	};
-
+	const removeUser = () => {
+		sessionStorage.removeItem("user");
+		setUser(null);
+	};
 	return (
-		<AuthContext.Provider value={{ user, getProfile }}>
+		<AuthContext.Provider value={{ user, getProfile, removeUser }}>
 			{children}
 		</AuthContext.Provider>
 	);

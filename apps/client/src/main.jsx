@@ -35,6 +35,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<AuthProvider>
-		<RouterProvider router={router}></RouterProvider>
+		<App />
 	</AuthProvider>
 );

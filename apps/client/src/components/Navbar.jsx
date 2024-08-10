@@ -1,13 +1,20 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
-
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 function Navbar() {
-	const { user } = useAuth();
+	const { user, removeUser } = useAuth();
+	const navigate = useNavigate();
 	console.log(user);
 	const avatarPlaceholderText = (text) => {
 		let palabras = text.split(" ");
 		let letras = palabras[0][0] + palabras[1][0];
 		return letras;
+	};
+	const logout = () => {
+		removeUser();
+		Cookies.remove("token");
+		navigate("/login");
 	};
 	return (
 		<div className="navbar bg-base-100">
@@ -37,7 +44,7 @@ function Navbar() {
 						</li>
 
 						<li>
-							<a>Logout</a>
+							<a onClick={logout}>Logout</a>
 						</li>
 					</ul>
 				</div>
