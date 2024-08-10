@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.min.css";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ErrorPage from "./views/ErrorPage.jsx";
-import Home, { loader as HomeLoader } from "./views/Home.jsx";
+import Home from "./views/Home.jsx";
 import Register from "./views/Register.jsx";
 import Login from "./views/Login.jsx";
 // import { profile } from "./api/auth.js";
@@ -20,7 +20,6 @@ const router = createBrowserRouter([
 			{
 				path: "/",
 				element: <Home />,
-				loader: HomeLoader,
 			},
 			{
 				path: "/register",

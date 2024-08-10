@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
 				headers: { Authorization: `Bearer ${Cookies.get("token")}` },
 			})
 			.then((res) => {
+				console.log(res.data);
 				setUser(res.data);
 			})
 			.catch((err) => {
