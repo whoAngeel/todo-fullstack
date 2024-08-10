@@ -1,5 +1,4 @@
 import React from "react";
-import { getProfile } from "../api/auth";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../context/AuthContext";
 import Cookies from "js-cookie";
@@ -9,6 +8,7 @@ import Tasks from "../components/Tasks";
 function Home() {
 	return (
 		<div className="w-screen ">
+			{/* <Navbar/> */}
 			<Tasks />
 		</div>
 	);

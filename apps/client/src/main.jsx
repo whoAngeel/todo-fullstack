@@ -9,6 +9,7 @@ import ErrorPage from "./views/ErrorPage.jsx";
 import Home from "./views/Home.jsx";
 import Register from "./views/Register.jsx";
 import Login from "./views/Login.jsx";
+import { TaskProvider } from "./context/TasksContext.jsx";
 // import { profile } from "./api/auth.js";
 
 const router = createBrowserRouter([

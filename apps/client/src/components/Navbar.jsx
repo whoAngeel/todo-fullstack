@@ -3,23 +3,28 @@ import { useAuth } from "../context/AuthContext";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 function Navbar() {
-	const { user, removeUser } = useAuth();
+	const { logout } = useAuth();
 	const navigate = useNavigate();
+	const user = JSON.parse(sessionStorage.getItem("user"));
 	console.log(user);
+
 	const getAvatarPlaceholder = (fullname) => {
+		if (!fullname) return "?";
+
 		const names = fullname.trim().split(/\s+/);
 		const initials =
 			names.length === 1
 				? names[0][0].toUpperCase()
 				: names
-						.filter((_, index) => index === 0 || names.length - 1)
+						.filter(
+							(_, index) => index === 0 || index === names.length - 1
+						)
 						.map((name) => name[0].toUpperCase())
 						.join("");
 		return initials;
 	};
-	const logout = () => {
-		removeUser();
-		Cookies.remove("token");
+	const logoutHandler = () => {
+		logout();
 		navigate("/login");
 	};
 	return (
@@ -51,7 +56,7 @@ function Navbar() {
 						</li>
 
 						<li>
-							<a onClick={logout}>Cerrar sesión</a>
+							<a onClick={logoutHandler}>Cerrar sesión</a>
 						</li>
 					</ul>
 				</div>

@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { signin, signup } from "../api/auth";
+import { fetchProfile, signin, signup } from "../api/auth";
 
 export const AuthContext = createContext();
 
@@ -20,18 +20,14 @@ export const AuthProvider = ({ children }) => {
 		return savedUser ? JSON.parse(savedUser) : null;
 	});
 
-	useEffect(() => {
-		if (user) sessionStorage.setItem("user", JSON.stringify(user));
-		else sessionStorage.removeItem("user");
-	}, [user]);
+	// useEffect(() => {
+	// 	if (user) sessionStorage.setItem("user", JSON.stringify(user));
+	// 	else sessionStorage.removeItem("user");
+	// }, [user]);
 
 	const getProfile = () => {
-		axios
-			.get("/api/auth/me", {
-				headers: { Authorization: `Bearer ${Cookies.get("token")}` },
-			})
+		fetchProfile()
 			.then((res) => {
-				console.log(res.data);
 				setUser(res.data);
 			})
 			.catch((err) => {
@@ -42,8 +38,15 @@ export const AuthProvider = ({ children }) => {
 		sessionStorage.removeItem("user");
 		setUser(null);
 	};
+
+	const logout = () => {
+		removeUser();
+		Cookies.remove("token");
+	};
 	return (
-		<AuthContext.Provider value={{ user, getProfile, removeUser }}>
+		<AuthContext.Provider
+			value={{ user, setUser, getProfile, removeUser, logout }}
+		>
 			{children}
 		</AuthContext.Provider>
 	);

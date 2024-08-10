@@ -12,19 +12,21 @@ import { signin } from "../../api/auth";
 export default function LoginForm() {
 	const [form] = Form.useForm();
 	const [clientReady, setClientReady] = React.useState(false);
-	const { getProfile } = useAuth();
+	const { logout } = useAuth();
 	const [isLoading, setIsLoading] = React.useState(false);
 	const navigate = useNavigate();
 	useEffect(() => {
-		Cookies.remove("token");
+		logout();
 		setClientReady(true);
 	}, []);
 	const onFinish = async (values) => {
 		setIsLoading(true);
 		signin(values)
 			.then((res) => {
+				console.log(res.data);
 				Cookies.set("token", res.data.token);
-				getProfile();
+				sessionStorage.setItem("user", JSON.stringify(res.data.user));
+				// getProfile();
 				navigate("/");
 			})
 			.catch((err) => {

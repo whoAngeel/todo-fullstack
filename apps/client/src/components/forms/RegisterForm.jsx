@@ -22,7 +22,7 @@ function RegisterForm() {
 			.then((res) => {
 				// console.log(res.data);
 				Cookies.set("token", res.data.token);
-				getProfile();
+				// getProfile();
 				navigate("/");
 			})
 			.catch((err) => {
