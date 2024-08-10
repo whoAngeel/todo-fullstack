@@ -10,7 +10,7 @@ function RegisterForm() {
 	const [form] = Form.useForm();
 	const navigate = useNavigate();
 	const [clientReady, setClientReady] = React.useState(false);
-	// const { register, user, loading } = useAuth();
+	const { getProfile } = useAuth();
 	const [loading, setLoading] = React.useState(false);
 	React.useEffect(() => {
 		setClientReady(true);
@@ -22,6 +22,7 @@ function RegisterForm() {
 			.then((res) => {
 				// console.log(res.data);
 				Cookies.set("token", res.data.token);
+				getProfile();
 				navigate("/");
 			})
 			.catch((err) => {

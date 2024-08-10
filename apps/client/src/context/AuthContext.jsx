@@ -17,15 +17,22 @@ export const AuthProvider = ({ children }) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [user, setUser] = useState(null);
 
-	const login = (credentials) => {
-		setLoading(true);
-		return axios
-			.post("/api/auth/login", credentials)
-			.then((res) => {
-				return res.data;
+	const getProfile = () => {
+		axios
+			.get("/api/auth/me", {
+				headers: { Authorization: `Bearer ${Cookies.get("token")}` },
 			})
-			.finally(() => setLoading(false));
+			.then((res) => {
+				setUser(res.data);
+			})
+			.catch((err) => {
+				toast.error("Error obteniendo la informacion del usuario");
+			});
 	};
 
-	return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
+	return (
+		<AuthContext.Provider value={{ user, getProfile }}>
+			{children}
+		</AuthContext.Provider>
+	);
 };

@@ -1,11 +1,20 @@
-import React from 'react'
+import React from "react";
+import { useLoaderData } from "react-router-dom";
+import { getProfile } from "../api/auth";
 
-function Home() {
-  return (
-    <div>
-        <h2 className='text-3xl font-bold'>Home</h2>
-    </div>
-  )
+export async function loader() {
+	const profile = await getProfile().then((res) => res.data);
+	return { profile };
 }
 
-export default Home
+function Home() {
+	const { profile } = useLoaderData();
+	console.log(profile);
+	return (
+		<div>
+			<h2 className="text-3xl font-bold">Home</h2>
+		</div>
+	);
+}
+
+export default Home;

@@ -12,7 +12,7 @@ import { signin } from "../../api/auth";
 export default function LoginForm() {
 	const [form] = Form.useForm();
 	const [clientReady, setClientReady] = React.useState(false);
-	const { login, loading } = useAuth();
+	const { getProfile } = useAuth();
 	const [isLoading, setIsLoading] = React.useState(false);
 	const navigate = useNavigate();
 	useEffect(() => {
@@ -24,6 +24,7 @@ export default function LoginForm() {
 		signin(values)
 			.then((res) => {
 				Cookies.set("token", res.data.token);
+				getProfile();
 				navigate("/");
 			})
 			.catch((err) => {
