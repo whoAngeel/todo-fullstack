@@ -4,6 +4,8 @@ import Home from "./views/Home";
 import Login from "./views/Login";
 import Register from "./views/Register";
 import NotFound from "./views/NotFound";
+import ProtectedRoute from "./ProtectedRoute";
+import Navbar from "./components/Navbar";
 function App() {
 	return (
 		<>
@@ -15,7 +17,16 @@ function App() {
 			/>
 			<BrowserRouter>
 				<Routes>
-					<Route index element={<Home />} />
+					<Route
+						path="/"
+						element={
+							<ProtectedRoute>
+								<Home />
+							</ProtectedRoute>
+						}
+					>
+						{/* <Route element={<Home />} /> */}
+					</Route>
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="*" element={<NotFound />} />

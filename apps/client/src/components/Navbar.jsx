@@ -17,7 +17,7 @@ function Navbar() {
 		navigate("/login");
 	};
 	return (
-		<div className="navbar bg-base-100">
+		<div className="navbar bg-cerise-red-50">
 			<div className="flex-1">
 				<a className="btn btn-ghost text-xl">TODO App</a>
 			</div>
@@ -36,15 +36,16 @@ function Navbar() {
 						tabIndex={0}
 						className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
 					>
+						<div className="my-2 mx-auto">
+							<div class="font-bold">{user.fullname}</div>
+							<div class="text-sm opacity-50">{user.email}</div>
+						</div>
 						<li>
-							<a className="justify-between">
-								Profile
-								<span className="badge">New</span>
-							</a>
+							<a className="justify-between">Perfíl</a>
 						</li>
 
 						<li>
-							<a onClick={logout}>Logout</a>
+							<a onClick={logout}>Cerrar sesión</a>
 						</li>
 					</ul>
 				</div>
