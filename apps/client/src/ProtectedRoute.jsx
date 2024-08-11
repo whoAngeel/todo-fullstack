@@ -10,10 +10,10 @@ function ProtectedRoute({ children }) {
 	if (!token) return <Navigate to="/login" replace />;
 
 	return (
-		<>
+		<div className="min-h-screen flex flex-col">
 			<Navbar></Navbar>
-			{children}
-		</>
+			<div className="flex-grow bg-cerise-red-300 pt-8">{children}</div>
+		</div>
 	);
 }
 

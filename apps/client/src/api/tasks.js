@@ -15,7 +15,7 @@ export const fetchTasks = async () =>
 export const addTask = async (task) =>
 	client.post("/tasks", {
 		data: task,
-		header: {
+		headers: {
 			Authorization: "Bearer " + token,
 		},
 	});

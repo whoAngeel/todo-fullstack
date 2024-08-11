@@ -3,16 +3,40 @@ import React from "react";
 import { useTasks } from "../context/TasksContext";
 
 function Tasks() {
-	const { tasks } = useTasks();
-	if (tasks.length === 0) return <Empty />;
+	const { tasks, isLoading, isInitialized } = useTasks();
 
-	return (
-		<div className="w-full">
-			<div className="mx-auto">
-				{tasks.map((task) => (
-					<p key={task._id}>{task.title}</p>
-				))}
+	if (!isInitialized) {
+		return (
+			<div>
+				<div className="skeleton h-32 w-32"></div>
+				<div className="skeleton h-32 w-32"></div>
 			</div>
+		);
+	}
+	if (isLoading) {
+		return (
+			<div>
+				<div className="skeleton h-32 w-32"></div>
+				<div className="skeleton h-32 w-32"></div>
+			</div>
+		);
+	}
+
+	if (tasks.length === 0) {
+		return (
+			<div>
+				<Empty />
+			</div>
+		);
+	}
+	return (
+		<div className="task-list">
+			{tasks.map((task) => (
+				<div key={task._id} className="task-card">
+					<h3>{task.title}</h3>
+					<p>{task.description}</p>
+				</div>
+			))}
 		</div>
 	);
 }

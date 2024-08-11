@@ -2,8 +2,10 @@ import React from "react";
 import { useAuth } from "../context/AuthContext";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { useTasks } from "../context/TasksContext";
 function Navbar() {
 	const { logout } = useAuth();
+	const { clearTasks } = useTasks();
 	const navigate = useNavigate();
 	const user = JSON.parse(sessionStorage.getItem("user"));
 	console.log(user);
@@ -24,6 +26,7 @@ function Navbar() {
 		return initials;
 	};
 	const logoutHandler = () => {
+		clearTasks();
 		logout();
 		navigate("/login");
 	};

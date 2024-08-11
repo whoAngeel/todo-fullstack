@@ -1,14 +1,16 @@
-import React from "react";
-import Navbar from "../components/Navbar";
+import React, { useEffect } from "react";
+import Tasks from "../components/Tasks";
+import { useTasks } from "../context/TasksContext";
 import { useAuth } from "../context/AuthContext";
 import Cookies from "js-cookie";
-import { Outlet } from "react-router-dom";
-import Tasks from "../components/Tasks";
-
 function Home() {
+	const { getTasks } = useTasks();
+	const token = Cookies.get("token");
+	useEffect(() => {
+		getTasks();
+	}, [token]);
 	return (
-		<div className="w-screen ">
-			{/* <Navbar/> */}
+		<div className="mx-auto w-3/4 ">
 			<Tasks />
 		</div>
 	);

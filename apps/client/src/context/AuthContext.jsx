@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { fetchProfile, signin, signup } from "../api/auth";
+import { useTasks } from "./TasksContext";
 
 export const AuthContext = createContext();
 
