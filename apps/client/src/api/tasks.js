@@ -12,7 +12,7 @@ export const fetchTasks = async () =>
 		},
 	});
 
-export const addTask = async (task) =>
+export const addTaskApi = async (task) =>
 	client.post("/tasks", {
 		data: task,
 		headers: {

@@ -1,17 +1,53 @@
-import { Badge, Button, ConfigProvider, Form, Input, Space } from "antd";
+import {
+	Badge,
+	Button,
+	ConfigProvider,
+	Form,
+	Input,
+	message,
+	Popconfirm,
+	Space,
+} from "antd";
 import React, { useState } from "react";
 import { ExperimentOutlined, LoadingOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { useTasks } from "../../context/TasksContext";
+import Cookies from "js-cookie";
 
 function InputTask() {
 	const [isSending, setIsSending] = useState(false);
+	const { tasks, isLoading, addTask, setTasks } = useTasks();
+	const [messageApi, contextHolder] = message.useMessage();
+
 	const [form] = Form.useForm();
 	const onFinish = (values) => {
 		setIsSending(true);
-		setTimeout(() => {
-			console.log(values);
-			form.setFieldValue("title", "");
-			setIsSending(false);
-		}, 2000);
+		// messageApi.info("Guardando la tarea");
+		axios
+			.post(
+				"/api/tasks",
+				{
+					title: form.getFieldValue("title"),
+				},
+				{
+					headers: {
+						Authorization: "Bearer " + Cookies.get("token"),
+					},
+				}
+			)
+			.then((res) => {
+				console.log(res.data);
+				setTasks([...tasks, res.data]);
+			})
+			.catch((err) => {
+				console.log(err);
+				form.resetFields();
+				messageApi.open({
+					type: "error",
+					content: `Error: ${err.response}`,
+				});
+			})
+			.finally(() => setIsSending(false));
 	};
 	return (
 		<ConfigProvider
@@ -21,6 +57,7 @@ function InputTask() {
 				},
 			}}
 		>
+			{contextHolder}
 			<Form onFinish={onFinish} form={form}>
 				<Form.Item
 					name="title"

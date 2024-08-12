@@ -36,7 +36,7 @@ function Tasks() {
 		);
 	}
 	return (
-		<div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
+		<div className="min-w-full flex flex-col gap-y-2">
 			{tasks.map((task) => (
 				<TaskCard task={task} key={task._id} />
 			))}

@@ -1,8 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { addTask, deleteTaskApi, fetchTasks } from "../api/tasks";
+import { addTaskApi, deleteTaskApi } from "../api/tasks";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { message } from "antd";
 
 const TaskContext = createContext();
 export const useTasks = () => {
@@ -14,6 +15,7 @@ export const TaskProvider = ({ children }) => {
 	const [tasks, setTasks] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isInitialized, setIsInitialized] = useState(false);
+	const [messageApi] = message.useMessage();
 
 	const getTasks = () => {
 		setIsLoading(true);
@@ -33,6 +35,25 @@ export const TaskProvider = ({ children }) => {
 				setIsLoading(false);
 				setIsInitialized(true);
 			});
+	};
+
+	const addTask = (values) => {
+		setIsLoading(true);
+		addTaskApi(values)
+			.then((res) => {
+				console.log(res.data);
+				setTasks([...tasks, res.data]);
+			})
+			.catch((err) => {
+				console.log(err);
+				messageApi.open({
+					type: "error",
+					content: `Elimninando la tarea ${id}`,
+				});
+			})
+			.finally(() => setIsLoading.false);
+
+		// setIsLoading(false);
 	};
 
 	const removeTask = (taskId) => {
@@ -82,7 +103,9 @@ export const TaskProvider = ({ children }) => {
 				pushTask,
 				removeTask,
 				isInitialized,
+				setTasks,
 				clearTasks,
+				addTask,
 			}}
 		>
 			{children}
