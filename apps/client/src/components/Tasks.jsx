@@ -1,4 +1,4 @@
-import { Empty, Typography } from "antd";
+import { Empty, Skeleton, Typography } from "antd";
 import React from "react";
 import { useTasks } from "../context/TasksContext";
 import TaskCard from "./TaskCard";
@@ -7,11 +7,16 @@ function Tasks() {
 	const { tasks, isLoading, isInitialized } = useTasks();
 
 	if (!isInitialized || isLoading) {
+		// if (true) {
 		return (
-			<div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7">
-				<div className="skeleton h-32 w-28 md:h-44 md:w-40"></div>
-				<div className="skeleton h-32 w-28 md:h-44 md:w-40"></div>
-				<div className="skeleton h-32 w-28 md:h-44 md:w-40"></div>
+			<div className="min-w-full flex flex-col gap-y-2 ">
+				{/* <div className="skeleton w-full h-10 bg-cerise-red-100 rounded-lg"></div> */}
+				<Skeleton.Input block active size="large" />
+				<Skeleton.Input block active size="large" />
+				<Skeleton.Input block active size="large" />
+				<Skeleton.Input block active size="large" />
+				{/* <div className="skeleton w-full h-10 bg-cerise-red-100 rounded-lg"></div> */}
+				{/* <div className="skeleton w-full h-10 bg-cerise-red-100 rounded-lg"></div> */}
 			</div>
 		);
 	}
