@@ -19,3 +19,10 @@ export const addTask = async (task) =>
 			Authorization: "Bearer " + token,
 		},
 	});
+
+export const deleteTaskApi = async (taskId) =>
+	client.delete(`/tasks/${taskId}`, {
+		headers: {
+			Authorization: "Bearer " + token,
+		},
+	});

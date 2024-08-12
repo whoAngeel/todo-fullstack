@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { addTask, fetchTasks } from "../api/tasks";
+import { addTask, deleteTaskApi, fetchTasks } from "../api/tasks";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -35,6 +35,24 @@ export const TaskProvider = ({ children }) => {
 			});
 	};
 
+	const removeTask = (taskId) => {
+		// setIsLoading(true);
+		// const task = ;
+		// setTasks(tasks.filter((t) => t._id !== taskId));
+		deleteTaskApi(taskId)
+			.then((res) => {
+				console.log("Tarea borrada en el backend", res.data);
+				setTasks(tasks.filter((t) => t._id !== taskId));
+			})
+			.catch((err) => {
+				console.log(err);
+				toast.error("No se ha podido eliminar la tarea");
+			});
+		// .finally(() => setIsLoading(false));
+		// setTasks(tasks.filter((task) => taskId !== task, _id));
+		// deleteTaskApi(taskId).then((res) => {
+		// });
+	};
 	const pushTask = (task) => {
 		setIsLoading(true);
 		addTask(task)
@@ -62,6 +80,7 @@ export const TaskProvider = ({ children }) => {
 				isLoading,
 				getTasks,
 				pushTask,
+				removeTask,
 				isInitialized,
 				clearTasks,
 			}}
