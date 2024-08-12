@@ -12,7 +12,7 @@ function ProtectedRoute({ children }) {
 	return (
 		<div className="min-h-screen flex flex-col">
 			<Navbar></Navbar>
-			<div className="flex-grow bg-cerise-red-300 pt-8">{children}</div>
+			<div className="flex-grow  pt-8">{children}</div>
 		</div>
 	);
 }

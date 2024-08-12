@@ -11,13 +11,10 @@ export const useTasks = () => {
 	return context;
 };
 export const TaskProvider = ({ children }) => {
-	const [tasks, setTasks] = useState([]);
+	const [tasks, setTasks] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isInitialized, setIsInitialized] = useState(false);
 
-	useEffect(() => {
-		console.log("tasks after clearing:", tasks); // Debería ser []
-	}, [tasks]); // Esto se ejecuta cada vez que tasks cambia
 	const getTasks = () => {
 		setIsLoading(true);
 		axios
