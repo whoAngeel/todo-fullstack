@@ -10,7 +10,7 @@ function Home() {
 		getTasks();
 	}, []);
 	return (
-		<div className="mx-auto w-3/4 ">
+		<div className="mx-auto w-1/2 min-h-max py-10">
 			<Tasks />
 		</div>
 	);

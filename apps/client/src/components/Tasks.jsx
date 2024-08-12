@@ -1,4 +1,4 @@
-import { Empty } from "antd";
+import { Empty, Typography } from "antd";
 import React from "react";
 import { useTasks } from "../context/TasksContext";
 import TaskCard from "./TaskCard";
@@ -18,8 +18,15 @@ function Tasks() {
 
 	if (!tasks || tasks.length === 0) {
 		return (
-			<div className="mt-8	">
-				<Empty description="Aún no hay tareas" />
+			<div className="mt-2">
+				<Empty
+					imageStyle={{ height: 100 }}
+					description={
+						<Typography className="font-semibold text-xl text-cerise-red-950 mt-4">
+							No se encontraron tareas
+						</Typography>
+					}
+				/>
 			</div>
 		);
 	}
