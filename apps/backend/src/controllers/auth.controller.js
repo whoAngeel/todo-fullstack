@@ -19,7 +19,7 @@ export const login = async (req, res, next) => {
 		const user = req.user;
 		const payload = { sub: user._id, fullname: user.fullname };
 		const token = signToken(payload);
-		res.status(200).json({ token });
+		res.status(200).json({ token, user });
 	} catch (error) {
 		next(error);
 	}
