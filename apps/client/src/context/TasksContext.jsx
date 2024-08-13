@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { addTaskApi, deleteTaskApi } from "../api/tasks";
+import { addTaskApi, changeStatusTaskApi, deleteTaskApi } from "../api/tasks";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -52,14 +52,9 @@ export const TaskProvider = ({ children }) => {
 				});
 			})
 			.finally(() => setIsLoading.false);
-
-		// setIsLoading(false);
 	};
 
 	const removeTask = (taskId) => {
-		// setIsLoading(true);
-		// const task = ;
-		// setTasks(tasks.filter((t) => t._id !== taskId));
 		deleteTaskApi(taskId)
 			.then((res) => {
 				console.log("Tarea borrada en el backend", res.data);
@@ -69,10 +64,37 @@ export const TaskProvider = ({ children }) => {
 				console.log(err);
 				toast.error("No se ha podido eliminar la tarea");
 			});
-		// .finally(() => setIsLoading(false));
-		// setTasks(tasks.filter((task) => taskId !== task, _id));
-		// deleteTaskApi(taskId).then((res) => {
-		// });
+	};
+
+	const toggleTaskstatus = (taskId) => {
+		// const newStatus = currentStatus === "pending" ? "done" : "pending";
+		axios
+			.patch(
+				`/api/tasks/status/${taskId}`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${Cookies.get("token")}`,
+					},
+				}
+			)
+			.then((res) => {
+				console.log(res.data);
+				setTasks((prevTasks) =>
+					prevTasks.map((task) =>
+						task._id === taskId
+							? {
+									...task,
+									status: task.status === "todo" ? "done" : "todo",
+								}
+							: task
+					)
+				);
+			})
+			.catch((err) => {
+				console.log(err.response);
+				toast.error("Error al actualizar el estado");
+			});
 	};
 	const pushTask = (task) => {
 		setIsLoading(true);
@@ -106,6 +128,7 @@ export const TaskProvider = ({ children }) => {
 				setTasks,
 				clearTasks,
 				addTask,
+				toggleTaskstatus,
 			}}
 		>
 			{children}

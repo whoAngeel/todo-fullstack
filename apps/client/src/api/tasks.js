@@ -26,3 +26,10 @@ export const deleteTaskApi = async (taskId) =>
 			Authorization: "Bearer " + token,
 		},
 	});
+
+export const changeStatusTaskApi = async (taskId) =>
+	client.patch(`/tasks/status/${taskId}`, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});

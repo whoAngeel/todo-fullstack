@@ -5,6 +5,7 @@ import {
 	editTask,
 	getTask,
 	getTasks,
+	changeStatus,
 } from "../controllers/task.controller.js";
 import passport from "passport";
 import { validateSchema } from "../middlewares/validator.handler.js";
@@ -35,6 +36,13 @@ router.patch(
 	validateSchema(taskIdSchema, "params"),
 	validateSchema(updateTaskSchema),
 	editTask
+);
+
+router.patch(
+	"/status/:id",
+	passport.authenticate("jwt", { session: false }),
+	validateSchema(taskIdSchema, "params"),
+	changeStatus
 );
 router.delete(
 	"/:id",

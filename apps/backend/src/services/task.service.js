@@ -19,8 +19,8 @@ export const getById = async (userId, id) => {
 
 export const removeTask = async (id) => {
 	const task = await taskModel.findById(id);
-    if(!task) throw notFound("Tarea no encontrada");
-	const rta = await task.deleteOne()
+	if (!task) throw notFound("Tarea no encontrada");
+	const rta = await task.deleteOne();
 	return rta;
 };
 
@@ -32,5 +32,13 @@ export const edit = async (id, taskData, userId) => {
 			new: true,
 		}
 	);
-    return task
+	return task;
+};
+
+export const toggleStatus = async (id) => {
+	const task = await taskModel.findById(id);
+	if (!task) throw notFound("Tarea no encontrada");
+	task.status = task.status === "todo" ? "done" : "todo";
+	await task.save();
+	return task;
 };

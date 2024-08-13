@@ -37,6 +37,7 @@ function InputTask() {
 			)
 			.then((res) => {
 				console.log(res.data);
+				form.setFieldValue("title", "");
 				setTasks([...tasks, res.data]);
 			})
 			.catch((err) => {
