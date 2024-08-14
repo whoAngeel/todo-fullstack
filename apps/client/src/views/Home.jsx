@@ -13,7 +13,7 @@ function Home() {
 	}, []);
 	const [contextHolder] = message.useMessage();
 	return (
-		<div className="mx-auto w-9/12 sm:w-9/12 md:w-5/12 lg:w-5/12 min-h-max py-3">
+		<div className="mx-auto w-10/12 sm:w-10/12 md:w-6/12 lg:w-6/12 min-h-max py-3">
 			<InputTask />
 			<Tasks />
 		</div>

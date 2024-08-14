@@ -8,7 +8,6 @@ function TaskCard({ task }) {
 	const { removeTask, toggleTaskstatus } = useTasks();
 
 	const handleChangeStatus = (id) => {
-		// console.log(id);
 		toggleTaskstatus(id);
 	};
 
@@ -21,7 +20,7 @@ function TaskCard({ task }) {
 			<div className="w-1/12 flex items-center  content-center justify-center mx-3">
 				<input
 					type="checkbox"
-					checked={task.status === "done"}
+					checked={task.isCompleted}
 					onChange={() => handleChangeStatus(task._id)}
 					className="checkbox  checkbox-xs checkbox-secondary  sm:checkbox-xs  md:checkbox-md lg:checkbox-lg"
 				/>

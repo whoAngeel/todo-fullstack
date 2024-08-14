@@ -2,9 +2,10 @@ import { Empty, Skeleton, Typography } from "antd";
 import React from "react";
 import { useTasks } from "../context/TasksContext";
 import TaskCard from "./TaskCard";
+import Tab from "./Tab";
 
 function Tasks() {
-	const { tasks, isLoading, isInitialized } = useTasks();
+	const { tasks, isLoading, isInitialized, filteredTasks } = useTasks();
 
 	if (!isInitialized || isLoading) {
 		// if (true) {
@@ -36,11 +37,16 @@ function Tasks() {
 		);
 	}
 	return (
-		<div className="min-w-full flex flex-col gap-y-2">
-			{tasks.map((task) => (
-				<TaskCard task={task} key={task._id} />
-			))}
-		</div>
+		<>
+			<div className="min-w-full flex flex-col gap-y-2">
+				{filteredTasks.map((task) => (
+					<TaskCard task={task} key={task._id} />
+				))}
+			</div>
+			<div>
+				<Tab />
+			</div>
+		</>
 	);
 }
 

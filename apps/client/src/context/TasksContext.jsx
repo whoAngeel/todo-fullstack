@@ -12,10 +12,22 @@ export const useTasks = () => {
 	return context;
 };
 export const TaskProvider = ({ children }) => {
-	const [tasks, setTasks] = useState(null);
+	const [tasks, setTasks] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isInitialized, setIsInitialized] = useState(false);
+	const [filtro, setFiltro] = useState("all"); // 'completed' 'pending'
 	const [messageApi] = message.useMessage();
+
+	const filteredTasks = tasks.filter((task) => {
+		if (filtro === "all") return true;
+		if (filtro === "completed") return task.isCompleted;
+		if (filtro === "pending") return !task.isCompleted;
+		return false;
+	});
+
+	const changeFilter = (newFilter) => {
+		setFiltro(newFilter);
+	};
 
 	const getTasks = () => {
 		setIsLoading(true);
@@ -85,7 +97,7 @@ export const TaskProvider = ({ children }) => {
 						task._id === taskId
 							? {
 									...task,
-									status: task.status === "todo" ? "done" : "todo",
+									isCompleted: task.isCompleted ? false : true,
 								}
 							: task
 					)
@@ -123,6 +135,8 @@ export const TaskProvider = ({ children }) => {
 				isLoading,
 				getTasks,
 				pushTask,
+				changeFilter,
+				filteredTasks,
 				removeTask,
 				isInitialized,
 				setTasks,
