@@ -7,6 +7,7 @@ import NotFound from "./views/NotFound";
 import ProtectedRoute from "./ProtectedRoute";
 import Navbar from "./components/Navbar";
 import { TaskProvider } from "./context/TasksContext";
+import { BannerProvider } from "./context/BannerContext";
 function App() {
 	return (
 		<>
@@ -21,11 +22,13 @@ function App() {
 					<Route
 						path="/"
 						element={
-							<TaskProvider>
-								<ProtectedRoute>
-									<Home />
-								</ProtectedRoute>
-							</TaskProvider>
+							<BannerProvider>
+								<TaskProvider>
+									<ProtectedRoute>
+										<Home />
+									</ProtectedRoute>
+								</TaskProvider>
+							</BannerProvider>
 						}
 					>
 						{/* <Route element={<Home />} /> */}

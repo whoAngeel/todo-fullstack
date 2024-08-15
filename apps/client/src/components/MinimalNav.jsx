@@ -1,14 +1,19 @@
-import { Avatar, Dropdown, Typography } from "antd";
-import React from "react";
+import { Avatar, Button, Dropdown, Typography } from "antd";
+import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useTasks } from "../context/TasksContext";
 import { Link, useNavigate } from "react-router-dom";
+import ModalBanner from "./ModalBanner";
+import { useBanner } from "../context/BannerContext";
 
 function MinimalNav() {
 	const { logout } = useAuth();
 	const { clearTasks } = useTasks();
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const navigate = useNavigate();
 	const user = JSON.parse(sessionStorage.getItem("user"));
+	const { handleShowModal } = useBanner();
+
 	const logoutHandler = () => {
 		clearTasks();
 		logout();
@@ -28,12 +33,16 @@ function MinimalNav() {
 			type: "divider",
 		},
 		{
-			label: <Link>Perfil</Link>,
+			label: <span onClick={() => handleShowModal()}>Banner</span>,
 			key: 1,
 		},
 		{
-			label: <Link onClick={logoutHandler}>Cerrar sesión</Link>,
+			label: <Link>Perfil</Link>,
 			key: 2,
+		},
+		{
+			label: <Link onClick={logoutHandler}>Cerrar sesión</Link>,
+			key: 3,
 		},
 	];
 
@@ -54,6 +63,8 @@ function MinimalNav() {
 	};
 	return (
 		<div className="w-full flex justify-between items-center brightness-100">
+			<ModalBanner />
+
 			<Typography className="text-2xl font-extrabold text-cerise-red-50 ">
 				Task Manager
 			</Typography>

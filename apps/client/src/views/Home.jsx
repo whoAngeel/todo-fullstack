@@ -11,7 +11,6 @@ function Home() {
 	useEffect(() => {
 		getTasks();
 	}, []);
-	const [contextHolder] = message.useMessage();
 	return (
 		<div className="mx-auto w-10/12 sm:w-10/12 md:w-6/12 lg:w-6/12 min-h-max py-3">
 			<InputTask />
