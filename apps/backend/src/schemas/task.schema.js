@@ -11,7 +11,11 @@ export const taskSchema = z.object({
 		.min(1, {
 			message: "El título debe tener al menos 1 caracteres",
 		}),
-	status: z.enum(["todo", "in-progress", "done"]).optional(),
+	isCompleted: z
+		.boolean({
+			message: "Este campo debe ser un booleano",
+		})
+		.optional(),
 });
 
 export const updateTaskSchema = z.object({
@@ -27,11 +31,8 @@ export const updateTaskSchema = z.object({
 		})
 		.optional(),
 
-	status: z
-		.enum(["todo", "in-progress", "done"], {
-			required_error: "El estado es requerido",
-			message: "El estado debe ser 'todo', 'in-progress' o 'done'",
-		})
+	isCompleted: z
+		.boolean({ message: "Este campo debe ser un booleano" })
 		.optional(),
 });
 

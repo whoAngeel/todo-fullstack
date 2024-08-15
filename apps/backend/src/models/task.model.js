@@ -7,11 +7,10 @@ const TaskSchema = new mongoose.Schema(
 			required: true,
 		},
 
-		status: {
-			type: String,
+		isCompleted: {
+			type: Boolean,
 			required: true,
-			enum: ["todo", "done"],
-			default: "todo",
+			default: false,
 		},
 		user: {
 			type: mongoose.Schema.Types.ObjectId,

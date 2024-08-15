@@ -38,7 +38,7 @@ export const edit = async (id, taskData, userId) => {
 export const toggleStatus = async (id) => {
 	const task = await taskModel.findById(id);
 	if (!task) throw notFound("Tarea no encontrada");
-	task.status = task.status === "todo" ? "done" : "todo";
+	task.isCompleted = task.isCompleted ? false : true;
 	await task.save();
 	return task;
 };
